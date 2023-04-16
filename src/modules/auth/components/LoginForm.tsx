@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Logo from "../../../img/logo.png";
 import "./loginform.css";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 
 const LoginForm: React.FC = () => {
   const notify = () => toast(`Login thành công`);
@@ -92,24 +91,16 @@ const LoginForm: React.FC = () => {
         </small>
 
         <label style={{ textAlign: "left", margin: "8px 0" }}>
-          <input
-            type="checkbox"
-            // checked={rememberMe}
-            // onChange={handleRememberMeChange}
-          />
+          <input type="checkbox" />
           Lưu thông tin đăng nhập
         </label>
         <div>
           <input
             className="btn"
             style={{ margin: "12px 0", borderRadius: "5px", cursor: "pointer" }}
-            // onClick={notify}
             type="submit"
           />
         </div>
-        {/* <button onClick={notify} type="submit">
-          Login
-        </button> */}
         <ToastContainer
           position="top-right"
           autoClose={1000}
