@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { LoginParams } from "../../../models/auth";
+import { LoginParams, RegisterParams } from "../../../models/auth";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Logo from "../../../img/logo.png";
-import "./loginform.css";
+import "../../auth/components/loginform.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const LoginForm: React.FC = () => {
+const Register = () => {
   const notify = () => toast(`Login thành công`);
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginParams>();
+  } = useForm<RegisterParams>();
 
   const emailValidation = (value: string) => {
     let error;
@@ -42,20 +41,20 @@ const LoginForm: React.FC = () => {
     }, 2000);
   };
 
-  const [location, setLocations] = useState([]);
+  //   const [location, setLocations] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://api.training.div3.pgtest.co/api/v1/location")
-      .then((response) => {
-        setLocations(response.data);
-        console.log(response.data.id);
-        // console.log(response.data.name);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  //   useEffect(() => {
+  //     axios
+  //       .get("http://api.training.div3.pgtest.co/api/v1/location")
+  //       .then((response) => {
+  //         setLocations(response.data);
+  //         console.log(response.data.id);
+  //         // console.log(response.data.name);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }, []);
 
   return (
     <>
@@ -99,6 +98,18 @@ const LoginForm: React.FC = () => {
           })}
           placeholder="Password"
         />
+        <input
+          className="form-control"
+          {...register("password", {
+            required: "Vui lòng nhập mật khẩu",
+            minLength: {
+              value: 6,
+              message: "Mật khẩu tối thiểu 6 kí tự",
+            },
+            validate: passwordValidation,
+          })}
+          placeholder="Password"
+        />
         <small
           className="text-danger"
           style={{ textAlign: "left", margin: "4px 0 6px 0" }}
@@ -106,40 +117,32 @@ const LoginForm: React.FC = () => {
           {errors.password?.message}
         </small>
 
-        {/* <Controller
-        name="firstName"
-        control={control}
-        render={({ field }) => <Input {...field} />}
-      />
-      <Controller
-        name="select"
-        control={control}
-        render={({ field }) => <Select 
-          {...field} 
-          options={[
-            { value: "chocolate", label: "Chocolate" },
-            { value: "strawberry", label: "Strawberry" },
-            { value: "vanilla", label: "Vanilla" }
-          ]} 
-        />}
-      /> */}
-
         <label style={{ textAlign: "left", margin: "8px 0" }}>
           <input type="checkbox" />
           Lưu thông tin đăng nhập
         </label>
         <div>
           <input
-            className="btn"
-            style={{ margin: "12px 0", borderRadius: "5px", cursor: "pointer" }}
-            type="submit"
-          />
-          <input
             onClick={() => {
-              navigate("/register");
+              navigate("/login");
             }}
             className="btn"
-            style={{ margin: "12px 0", borderRadius: "5px", cursor: "pointer" }}
+            type="submit"
+            style={{
+              margin: "12px 0",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          />
+          <input
+            className="btn"
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              margin: "12px 0",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
             type="submit"
           />
         </div>
@@ -156,4 +159,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default Register;
