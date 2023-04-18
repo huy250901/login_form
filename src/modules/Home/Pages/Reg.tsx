@@ -1,35 +1,32 @@
-import { emit } from 'process';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { RegisterParams } from '../../../models/auth';
-
-
+import { emit } from "process";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { RegisterParams } from "../../../models/auth";
 
 export const RegisterForm: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<RegisterParams>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<RegisterParams>();
   const password = React.useRef({});
-  password.current = watch('password', '');
+  password.current = watch("password", "");
 
   const onSubmit = (data: FormData) => {
     console.log(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+    // onSubmit={handleSubmit(onSubmit)}
+    >
       <div>
         <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          ={register({
-
-             
-                }
-            },
-          })}
-        />
-        {errors.email && <span>{errors.email.message}</span>}
+        <input id="email" name="email" type="email" />
+        {errors.email && (
+          <span>{errors.email.message}</span>
+        )}
       </div>
       <div>
         <label htmlFor="password">Password</label>
@@ -37,35 +34,27 @@ export const RegisterForm: React.FC = () => {
           id="password"
           name="password"
           type="password"
-          ref={register({
-            },
-          })}
         />
-        {errors.password && <span>{errors.password.message}</span>}
+        {errors.password && (
+          <span>{errors.password.message}</span>
+        )}
       </div>
       <div>
-        <label htmlFor="repeatPassword">Repeat Password</label>
+        <label htmlFor="repeatPassword">
+          Repeat Password
+        </label>
         <input
           id="repeatPassword"
           name="repeatPassword"
           type="password"
-          ref={register({
-            validate: (value) =>
-              value === password.current || 'The passwords do not match',
-          })}
         />
-        {errors.repeatPassword && <span>{errors.repeatPassword.message}</span>}
+        {errors.repeatPassword && (
+          <span>{errors.repeatPassword.message}</span>
+        )}
       </div>
       <div>
         <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          ref={register({
-            required: 'Name is required',
-          })}
-        />
+        <input id="name" name="name" type="text" />
         {errors.name && <span>{errors.name.message}</span>}
       </div>
       <div>
@@ -76,7 +65,6 @@ export const RegisterForm: React.FC = () => {
             name="gender"
             type="radio"
             value="male"
-            ref={register({ required: true })}
           />
           <label htmlFor="male">Male</label>
           <input
@@ -84,7 +72,6 @@ export const RegisterForm: React.FC = () => {
             name="gender"
             type="radio"
             value="female"
-            ref={register({ required: true })}
           />
           <label htmlFor="female">Female</label>
           <input
@@ -92,7 +79,6 @@ export const RegisterForm: React.FC = () => {
             name="gender"
             type="radio"
             value="other"
-            ref={register({ required: true })}
           />
           <label htmlFor="other">Other</label>
         </div>
@@ -104,12 +90,9 @@ export const RegisterForm: React.FC = () => {
           id="regionstate"
           name="regionstate"
           type="text"
-          ref={register({
-            required: 'Region/State is required',
-          })}
         />
-        {errors.regionstate && (
-          <span>{errors.regionstate.message}</span>
+        {errors.region && (
+          <span>{errors.region.message}</span>
         )}
       </div>
       <button type="submit">Register</button>

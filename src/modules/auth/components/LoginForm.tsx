@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { LoginParams } from "../../../models/auth";
+import {
+  LoginParams,
+  RegisterParams,
+} from "../../../models/auth";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,7 +49,9 @@ const LoginForm: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://api.training.div3.pgtest.co/api/v1/location")
+      .get(
+        "http://api.training.div3.pgtest.co/api/v1/location"
+      )
       .then((response) => {
         setLocations(response.data);
         console.log(response.data.id);
@@ -57,10 +62,56 @@ const LoginForm: React.FC = () => {
       });
   }, []);
 
+  const onSubmit = (data: RegisterParams) => {
+    fetch(
+      "http://api.training.div3.pgtest.co/api/v1/auth/register",
+      {
+        method: "POST",
+
+        body: JSON.stringify({
+          email: data.email,
+
+          password: data.password,
+
+          repeatPassword: data.repeatPassword,
+
+          name: data.name,
+
+          gender: data.gender,
+
+          region: data.region,
+
+          state: data.state,
+        }),
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+
+      .then((data) => {
+        if (data.code === 200) {
+          notify();
+
+          notify();
+
+          setTimeout(() => navigate("/home"), 1000);
+        } else {
+          notify();
+        }
+      });
+  };
+
   return (
     <>
       <img
-        style={{ maxWidth: "250px", margin: "128px auto", display: "block" }}
+        style={{
+          maxWidth: "250px",
+          margin: "128px auto",
+          display: "block",
+        }}
         src={Logo}
         alt=""
       />
@@ -72,21 +123,35 @@ const LoginForm: React.FC = () => {
           handleClick();
         })}
       >
-        <div style={{ textAlign: "left", marginBottom: "6px" }}>
+        <div
+          style={{ textAlign: "left", marginBottom: "6px" }}
+        >
           Địa chỉ email
         </div>
         <input
           className="form-control"
-          {...register("email", { validate: emailValidation })}
+          {...register("email", {
+            validate: emailValidation,
+          })}
           placeholder="Enter your email"
         />
         <small
           className="text-danger"
-          style={{ textAlign: "left", margin: "4px 0 6px 0" }}
+          style={{
+            textAlign: "left",
+            margin: "4px 0 6px 0",
+          }}
         >
           {errors.email && errors.email?.message}
         </small>
-        <div style={{ textAlign: "left", margin: "8px 0 6px 0" }}>Mật khẩu</div>
+        <div
+          style={{
+            textAlign: "left",
+            margin: "8px 0 6px 0",
+          }}
+        >
+          Mật khẩu
+        </div>
         <input
           className="form-control"
           {...register("password", {
@@ -101,7 +166,10 @@ const LoginForm: React.FC = () => {
         />
         <small
           className="text-danger"
-          style={{ textAlign: "left", margin: "4px 0 6px 0" }}
+          style={{
+            textAlign: "left",
+            margin: "4px 0 6px 0",
+          }}
         >
           {errors.password?.message}
         </small>
@@ -124,14 +192,25 @@ const LoginForm: React.FC = () => {
         />}
       /> */}
 
-        <label style={{ textAlign: "left", margin: "8px 0" }}>
+        <label
+          style={{ textAlign: "left", margin: "8px 0" }}
+        >
           <input type="checkbox" />
           Lưu thông tin đăng nhập
         </label>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
           <input
             className="btn"
-            style={{ margin: "12px 0", borderRadius: "5px", cursor: "pointer" }}
+            style={{
+              margin: "12px 0",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
             type="submit"
           />
           <input
@@ -139,7 +218,11 @@ const LoginForm: React.FC = () => {
               navigate("/register");
             }}
             className="btn"
-            style={{ margin: "12px 0", borderRadius: "5px", cursor: "pointer" }}
+            style={{
+              margin: "12px 0",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
             type="submit"
           />
         </div>
